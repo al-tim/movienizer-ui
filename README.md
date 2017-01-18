@@ -1,6 +1,6 @@
 # Movienizer UI
 
-## Description
+## Functional Description
 The project is UI for Movienizer database. At the time of writing this provides read only search capability.
 
 Search results are made available in a paginated table.
