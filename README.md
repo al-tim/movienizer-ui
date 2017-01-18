@@ -15,21 +15,25 @@ Note: search criteria 2-4 each has an input switch that toggles between 'All' an
 
 ### Filters in the Table Header
 Each column has a filter in the header:
+
 5. Title and Original Title fields have regular edit boxes.
-6 Year, Kinopoisk Rating, IMDB Rating and Duration columns have slider that allow to choose a range of values.
+6. Year, Kinopoisk Rating, IMDB Rating and Duration columns have slider that allow to choose a range of values.
 7. The Year filter in addition to slider also has number inputs above the slider that become active if the user focuses in them. This is helpful since years range over more than a century and precise year selection with a slider is not possible over so many possible values. Beware that due a known Microsoft Edge bug these number inputs do not fire events and will not work correctly until Microsoft fixes the bug in Edge. Chrome and FireFox work as expected.
 
 ### Sorting and Search Results Scoring
 Clicking on a column header gives control to the user over how the data in the Movies table is sorted. Clicking on a header toggles between three states:
+
 1. No column sorting
 2. Ascending
 3. Descending
 
 If none of the columns defines results sorting the results are by default sorted as follows:
+
 1. If none of the filters above the Movies table have values then the results are ordered by Title column in ascending order.
 2. If at least one value is specified in the filters above the Movies table the results are sorted by ranking.
 
 Ranking:
+
 1. Global Search text ranking is done by Full Text Search algorithm and is meant to rank by closest match (e.g. more token matches found).
 2. Other filters above the Movies table are ranked by percentage of exact matches. E.g. if the user selected 3 actors and the movie has 2 out of 3 actors then ranking will be 2/3 = 0.666(6).
 3. Each filter has equal weight and thus compound ranking is just a sum of each filter rankins.
