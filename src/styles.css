@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('../node_modules/primeng/resources/themes/omega/theme.css');
+@import url('../node_modules/primeng/resources/primeng.min.css');
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');
+
+.col-icon {
+  width: 38px;
+  text-align: center;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.ui-autocomplete, .ui-multiselect {
+  vertical-align: middle;
+}
+
+.ui-inputswitch .ui-inputswitch-on, .ui-inputswitch .ui-inputswitch-off {
+  font-weight: normal;
+}
+
+.ui-inputswitch {
+  vertical-align: middle;
+}
+
+.highlight {
+  background-color: #BCA136;
+  color: white;
+}

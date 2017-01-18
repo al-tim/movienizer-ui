@@ -1,0 +1,191 @@
+<div class="data-container">
+  <p-growl [value]="msgs" sticky="sticky"></p-growl>
+  <div class="datatable">
+    <div class="ui-widget-header" style="padding: .5em .75em .5em .75em; border-bottom: 0 none">
+      <table>
+        <tr>
+          <td>
+            <i class="fa fa-search" style="margin:4px 4px 0 0" ></i>
+          </td>
+          <td>
+            <app-search-input [value]="globalSearch" (onValueChanged)="globalSearchInitiated($event)" inputPlaceholder="Global Search"
+              pTooltip="Searches in all movie information (including expandable details)" tooltipPosition="top" [inputStyle]="{'width' : '100%'}"></app-search-input>
+          </td>
+        </tr>
+      </table>
+      <table class="inline-filter-table">
+        <tr>
+          <td>
+            <i class="fa fa-user-o"></i>
+          </td>
+          <td>
+            <p-autoComplete [(ngModel)]="personsSelected" [suggestions]="personsFiltered" (completeMethod)="filterPersons($event)"
+              [minLength]="1" placeholder="Director/Writer/Actor" field="name" [multiple]="true"
+              (onSelect)="onPersonSelected($event)" (onUnselect)="onPersonSelected($event)"></p-autoComplete>
+          </td>
+          <td>
+            <p-inputSwitch onLabel="All" offLabel="Any" [(ngModel)]="personsMatchAll" (onChange)="onPersonsMatchAllToggled($event)"></p-inputSwitch>
+          </td>
+        </tr>
+      </table>
+      <table class="inline-filter-table">
+        <tr>
+          <td>
+            <i class="fa fa-film"></i>
+          </td>
+          <td>
+            <p-multiSelect defaultLabel="< Select Genre(-s) >&nbsp;&nbsp;&nbsp;" [options]="genreSelectItems" [(ngModel)]="genresSelected" (onChange)="onGenreSelected($event)"></p-multiSelect>
+          </td>
+          <td>
+            <p-inputSwitch onLabel="All" offLabel="Any" [(ngModel)]="genresMatchAll" (onChange)="onGenresMatchAllToggled($event)"></p-inputSwitch>
+          </td>
+        </tr>
+      </table>
+      <table class="inline-filter-table">
+        <tr>
+          <td>
+            <i class="fa fa-flag-o"></i>
+          </td>
+          <td>
+            <p-multiSelect defaultLabel="< Select Country(-ies) >&nbsp;&nbsp;" [options]="countrySelectItems" [(ngModel)]="countriesSelected" (onChange)="onCountrySelected($event)"></p-multiSelect>
+          </td>
+          <td>
+            <p-inputSwitch onLabel="All" offLabel="Any" [(ngModel)]="countriesMatchAll" (onChange)="onCountriesMatchAllToggled($event)"></p-inputSwitch>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <app-modal-spinner [loading]="loading" selector=".grid tbody">
+      <p-dataTable #dt [value]="movies" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="10" [rowsPerPageOptions] = "[7, 10, 15, 20, 30, 50]" [responsive]="true" expandableRows="true" [responsive]="true" [stacked]="stacked"
+        [totalRecords]="totalMovieCount" (onLazyLoad)="loadMoviesLazy($event)" [lazy]="true" sortMode="multiple"
+        styleClass="grid">
+        <header>Movies ({{totalMovieCount}})</header>
+        <p-column expander="true" styleClass="col-icon"></p-column>
+        <p-column field="title" header="Title">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'Title');">Title
+                <span class="fa" [ngClass]="sortCSSClass('Title')"></span>
+              </div>
+              <app-search-input [value]="titleSearch" (onValueChanged)="titleSearchInitiated($event)" inputPlaceholder="Title"></app-search-input>
+            </div>
+          </template>
+        </p-column>
+        <p-column field="original_Title" header="Original Title">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'Original_Title');">Original Title
+                <span class="fa" [ngClass]="sortCSSClass('Original_Title')"></span>
+              </div>
+              <app-search-input [value]="originalTitleSearch" (onValueChanged)="originalTitleSearchInitiated($event)" inputPlaceholder="Original Title"></app-search-input>
+            </div>
+          </template>
+        </p-column>
+        <p-column field="year" header="Year">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'Year');">Year
+                (<input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="fromYear" (ngModelChange)="onFromYearFilterChange($event)"
+                        [min]="filterRanges ? filterRanges.minYear : 0" [max]="filterRanges ? (filterRanges.maxYear > toYear ? toYear : filterRanges.maxYear) : 10"
+                        (click)="$event.stopPropagation(); $event.preventDefault();">-
+                <input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="toYear" (ngModelChange)="onToYearFilterChange($event)"
+                        [min]="filterRanges ? (filterRanges.minYear < fromYear ? fromYear : filterRanges.minYear) : 0" [max]="filterRanges ? filterRanges.maxYear : 10"
+                        (click)="$event.stopPropagation(); $event.preventDefault();">)
+                <span class="fa" [ngClass]="sortCSSClass('Year')"></span>
+              </div>
+              <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearRange"
+                [min]="filterRanges?filterRanges.minYear:1900" [max]="filterRanges?filterRanges.maxYear:2017" [range]="true"
+                (onChange)="onYearFilterChange($event)" (onSlideEnd)="onYearFilterChanged($event)"></p-slider>
+            </div>
+          </template>
+        </p-column>
+        <p-column field="kinopoisk_Rating" header="Kinopoisk Rating">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'Kinopoisk_Rating');">Kinopoisk Rating ({{kinopoiskRatingRange$}})
+                <span class="fa" [ngClass]="sortCSSClass('Kinopoisk_Rating')"></span>
+              </div>
+              <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="kinopoiskRatingRange"
+                [min]="filterRanges?filterRanges.minKinopoiskRating:0" [max]="filterRanges?filterRanges.maxKinopoiskRating:10" [range]="true"
+                (onChange)="onKinopoiskFilterChange($event)" (onSlideEnd)="onKinopoiskFilterChanged($event)"></p-slider>
+            </div>
+          </template>
+        </p-column>
+        <p-column field="imdb_Rating" header="IMDB Rating">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'IMDB_Rating');">IMDB Rating ({{imdbRatingRange$}})
+                <span class="fa" [ngClass]="sortCSSClass('IMDB_Rating')"></span>
+              </div>
+              <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="imdbRatingRange"
+                [min]="filterRanges?filterRanges.minIMDBRating:0" [max]="filterRanges?filterRanges.maxIMDBRating:10" [range]="true"
+                (onChange)="onIMDBFilterChange($event)" (onSlideEnd)="onIMDBFilterChanged($event)"></p-slider>
+            </div>
+          </template>
+        </p-column>
+        <p-column field="duration" header="Duration">
+          <template pTemplate="header">
+            <div>
+              <div (click)="toggleSort($event, 'Duration');">Duration ({{durationRange$}})
+                <span class="fa" [ngClass]="sortCSSClass('Duration')"></span>
+              </div>
+              <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="durationRange"
+                [min]="filterRanges?filterRanges.minDuration:0" [max]="filterRanges?filterRanges.maxDuration:350" [range]="true"
+                (onChange)="onDurationFilterChange($event)" (onSlideEnd)="onDurationFilterChanged($event)"></p-slider>
+            </div>
+          </template>
+        </p-column>
+        <template let-movie pTemplate="rowexpansion">
+          <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px">
+            <div *ngIf="movie.site" class="ui-grid-row">
+              <div class="ui-grid-col-2 label">Kinopoisk:</div>
+              <div class="ui-grid-col-10">
+                <a target="_blank" [href]="movie.site">{{movie.site}}</a>
+              </div>
+            </div>
+            <div *ngIf="movie.genres && movie.genres.length>0" class="ui-grid-row">
+              <div class="ui-grid-col-2 label">Genres:</div>
+              <div class="ui-grid-col-10">
+                <span *ngFor="let item of movie.genres; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+              </div>
+            </div>
+            <div *ngIf="movie.countries && movie.countries.length>0" class="ui-grid-row">
+              <div class="ui-grid-col-2 label">Countries:</div>
+              <div class="ui-grid-col-10">
+                <span *ngFor="let item of movie.countries; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+              </div>
+            </div>
+            <div *ngIf="movie.studios && movie.studios.length>0" class="ui-grid-row">
+              <div class="ui-grid-col-2 label">Studios:</div>
+              <div class="ui-grid-col-10">
+                <span *ngFor="let item of movie.studios; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+              </div>
+            </div>
+            <app-horisontal-fieldset *ngIf="movie.description" legend="Description:" toggleable="true">
+              <div [innerHTML]="movie.description | highlight : globalSearchTokens "></div>
+            </app-horisontal-fieldset>
+            <app-horisontal-fieldset *ngIf="movie.awards" legend="Awards:" toggleable="true" collapsed="true">
+              <div [innerHTML]="movie.awards"></div>
+            </app-horisontal-fieldset>
+            <app-horisontal-fieldset *ngIf="movie.budget" legend="Budget:" toggleable="true">
+              <div [innerHTML]="movie.budget"></div>
+            </app-horisontal-fieldset>
+            <app-horisontal-fieldset *ngIf="movie.directors && movie.directors.length>0" legend="Directors:" toggleable="true">
+              <span *ngFor="let person of movie.directors; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a>{{isLast ? '' : ', '}}</span>
+            </app-horisontal-fieldset>
+            <app-horisontal-fieldset *ngIf="movie.writers && movie.writers.length>0" legend="Writers:" toggleable="true">
+              <span *ngFor="let person of movie.writers; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a>{{isLast ? '' : ', '}}</span>
+            </app-horisontal-fieldset>
+            <app-horisontal-fieldset *ngIf="movie.actors && movie.actors.length>0" legend="Actors:" toggleable="true">
+                <span *ngFor="let person of movie.actors; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a> as {{person.character}}{{isLast ? '' : ', '}}</span>
+            </app-horisontal-fieldset>
+          </div>
+        </template>
+        <footer>
+          <div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-undo" style="float:left" (click)="actionReset()" label="Reset"></button></div>
+        </footer>
+      </p-dataTable>
+    </app-modal-spinner>
+  </div>
+</div>

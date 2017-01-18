@@ -1,0 +1,5 @@
+<div #spinner class='screen app-fade-in'  [class.hidden]="!loading" >
+  <div #target></div>
+  <i *ngIf='defaultTemplate' class = 'modal-spinner fa fa-refresh' aria-hidden="true"></i>
+</div>
+<div #content (window:resize)="ngAfterViewChecked()"><ng-content></ng-content></div>
