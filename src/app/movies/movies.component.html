@@ -71,6 +71,9 @@
               <app-search-input [value]="titleSearch" (onValueChanged)="titleSearchInitiated($event)" inputPlaceholder="Title"></app-search-input>
             </div>
           </template>
+          <template let-movie="rowData" pTemplate="body">
+            <span  [innerHTML]="movie.title | highlight : globalSearchTokens "></span>
+          </template>
         </p-column>
         <p-column field="original_Title" header="Original Title">
           <template pTemplate="header">
@@ -80,6 +83,9 @@
               </div>
               <app-search-input [value]="originalTitleSearch" (onValueChanged)="originalTitleSearchInitiated($event)" inputPlaceholder="Original Title"></app-search-input>
             </div>
+          </template>
+          <template let-movie="rowData" pTemplate="body">
+            <span  [innerHTML]="movie.original_Title | highlight : globalSearchTokens "></span>
           </template>
         </p-column>
         <p-column field="year" header="Year">
@@ -147,38 +153,44 @@
             <div *ngIf="movie.genres && movie.genres.length>0" class="ui-grid-row">
               <div class="ui-grid-col-2 label">Genres:</div>
               <div class="ui-grid-col-10">
-                <span *ngFor="let item of movie.genres; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+                <span *ngFor="let item of movie.genres; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
               </div>
             </div>
             <div *ngIf="movie.countries && movie.countries.length>0" class="ui-grid-row">
               <div class="ui-grid-col-2 label">Countries:</div>
               <div class="ui-grid-col-10">
-                <span *ngFor="let item of movie.countries; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+                <span *ngFor="let item of movie.countries; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
               </div>
             </div>
             <div *ngIf="movie.studios && movie.studios.length>0" class="ui-grid-row">
               <div class="ui-grid-col-2 label">Studios:</div>
               <div class="ui-grid-col-10">
-                <span *ngFor="let item of movie.studios; let isLast = last">{{item}}{{isLast ? '' : ', '}}</span>
+                <span *ngFor="let item of movie.studios; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
               </div>
             </div>
             <app-horisontal-fieldset *ngIf="movie.description" legend="Description:" toggleable="true">
               <div [innerHTML]="movie.description | highlight : globalSearchTokens "></div>
             </app-horisontal-fieldset>
             <app-horisontal-fieldset *ngIf="movie.awards" legend="Awards:" toggleable="true" collapsed="true">
-              <div [innerHTML]="movie.awards"></div>
+              <div [innerHTML]="movie.awards | highlight : globalSearchTokens "></div>
             </app-horisontal-fieldset>
             <app-horisontal-fieldset *ngIf="movie.budget" legend="Budget:" toggleable="true">
-              <div [innerHTML]="movie.budget"></div>
+              <div [innerHTML]="movie.budget | highlight : globalSearchTokens "></div>
             </app-horisontal-fieldset>
             <app-horisontal-fieldset *ngIf="movie.directors && movie.directors.length>0" legend="Directors:" toggleable="true">
-              <span *ngFor="let person of movie.directors; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a>{{isLast ? '' : ', '}}</span>
+              <span *ngFor="let person of movie.directors; let isLast = last">
+                <a target="_blank" [href]="person.site" class="kinopoisk-link" [innerHTML]="person.name | highlight : globalSearchTokens "></a>{{isLast ? '' : ', '}}
+              </span>
             </app-horisontal-fieldset>
             <app-horisontal-fieldset *ngIf="movie.writers && movie.writers.length>0" legend="Writers:" toggleable="true">
-              <span *ngFor="let person of movie.writers; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a>{{isLast ? '' : ', '}}</span>
+              <span *ngFor="let person of movie.writers; let isLast = last">
+                <a target="_blank" [href]="person.site" class="kinopoisk-link" [innerHTML]="person.name | highlight : globalSearchTokens "></a>{{isLast ? '' : ', '}}
+              </span>
             </app-horisontal-fieldset>
             <app-horisontal-fieldset *ngIf="movie.actors && movie.actors.length>0" legend="Actors:" toggleable="true">
-                <span *ngFor="let person of movie.actors; let isLast = last"><a target="_blank" [href]="person.site" class="kinopoisk-link">{{person.name}}</a> as {{person.character}}{{isLast ? '' : ', '}}</span>
+                <span *ngFor="let person of movie.actors; let isLast = last">
+                  <a target="_blank" [href]="person.site" class="kinopoisk-link" [innerHTML]="person.name | highlight : globalSearchTokens "></a> as {{person.character}}{{isLast ? '' : ', '}}
+                </span>
             </app-horisontal-fieldset>
           </div>
         </template>
