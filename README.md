@@ -40,6 +40,9 @@ Because Global Search looks through all movie fields it may sometimes be difficu
 ### Expandable in-table Movie Details
 Clicking on an icon in the first column opens expandable area with further movie details. Those movie details contain such fields as Description, Awards, Budget, Directors, Writers Actors. If the field has no value it is not shown. Each such field can in turn be collapsed/expanded by clicking on the field header.
 
+### Links to Kinopoisk.ru
+The movie, Directors, Writers and Actors all have links to their kinopoisk pages. Such pages are open in a new browser tab.
+
 ### Reset
 Reset button below the Movies table resets all filters and sorting.
 
