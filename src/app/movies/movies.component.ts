@@ -151,8 +151,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line:no-any
-  public onFromYearFocusOut(event: any, fromYearInplace: Inplace): void {
-    fromYearInplace.deactivate(event);
+  public onFromYearFocusOut(event: any): void {
     this.fromYear = this.getRangeLimitedFromYear(this.fromYear);
     this.rerender();
   }

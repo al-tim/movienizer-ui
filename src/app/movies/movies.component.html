@@ -108,10 +108,10 @@
             </div>
           </template>
         </p-column>
-        <p-column field="kinopoisk_Rating" header="Kinopoisk Rating">
+        <p-column field="kinopoisk_Rating" header="Kinopoisk">
           <template pTemplate="header">
             <div>
-              <div (click)="toggleSort($event, 'Kinopoisk_Rating');">Kinopoisk Rating ({{kinopoiskRatingRange$}})
+              <div (click)="toggleSort($event, 'Kinopoisk_Rating');">Kinopoisk ({{kinopoiskRatingRange$}})
                 <span class="fa" [ngClass]="sortCSSClass('Kinopoisk_Rating')"></span>
               </div>
               <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="kinopoiskRatingRange"
@@ -120,10 +120,10 @@
             </div>
           </template>
         </p-column>
-        <p-column field="imdb_Rating" header="IMDB Rating">
+        <p-column field="imdb_Rating" header="IMDB">
           <template pTemplate="header">
             <div>
-              <div (click)="toggleSort($event, 'IMDB_Rating');">IMDB Rating ({{imdbRatingRange$}})
+              <div (click)="toggleSort($event, 'IMDB_Rating');">IMDB ({{imdbRatingRange$}})
                 <span class="fa" [ngClass]="sortCSSClass('IMDB_Rating')"></span>
               </div>
               <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="imdbRatingRange"
