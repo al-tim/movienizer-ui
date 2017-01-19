@@ -29,6 +29,7 @@
     ],
     "typedef": [true, "parameter", "call-signature", "member-variable-declaration"],
     "no-any": true,
+    "no-null-keyword": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -45,7 +46,7 @@
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
-    "no-inferrable-types": true,
+    "no-inferrable-types": false,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-switch-case-fall-through": true,

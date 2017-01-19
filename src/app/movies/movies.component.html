@@ -94,10 +94,10 @@
               <div (click)="toggleSort($event, 'Year');">Year
                 (<input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="fromYear" (ngModelChange)="onFromYearFilterChange($event)"
                         [min]="filterRanges ? filterRanges.minYear : 0" [max]="filterRanges ? (filterRanges.maxYear > toYear ? toYear : filterRanges.maxYear) : 10"
-                        (click)="$event.stopPropagation(); $event.preventDefault();">-
+                        (click)="$event.stopPropagation(); $event.preventDefault();" (focusout)="onFromYearFocusOut($event)">-
                 <input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="toYear" (ngModelChange)="onToYearFilterChange($event)"
                         [min]="filterRanges ? (filterRanges.minYear < fromYear ? fromYear : filterRanges.minYear) : 0" [max]="filterRanges ? filterRanges.maxYear : 10"
-                        (click)="$event.stopPropagation(); $event.preventDefault();">)
+                        (click)="$event.stopPropagation(); $event.preventDefault();" (focusout)="onToYearFocusOut($event)">)
                 <span class="fa" [ngClass]="sortCSSClass('Year')"></span>
               </div>
               <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearRange"

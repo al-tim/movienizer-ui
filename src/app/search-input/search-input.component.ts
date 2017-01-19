@@ -34,8 +34,9 @@ export class SearchInputComponent implements OnInit {
 
   public ngOnInit(): void {
     Observable.fromEvent(this.el.nativeElement, 'keyup')
+      // tslint:disable-next-line:no-any
       .map((e: any) => e.target.value) // extract the value of the input
-      .debounceTime(this.debounceTime)               // only once every so often
+      .debounceTime(this.debounceTime) // only once every so often
       .filter((query: string): boolean => { return query !== this.previousEmittedValue; })
       .subscribe({
         next: (query: string) => {
@@ -43,7 +44,7 @@ export class SearchInputComponent implements OnInit {
           this.previousEmittedValue = query;
           this.value$ = query;
         },
-        error: (err: any) => { // on error
+        error: (err) => { // on error: this should not really happen. So just log it.
                  console.log(err);
                }
         }

@@ -77,17 +77,17 @@ export class MoviesComponent implements OnInit, OnDestroy {
                        this.countrySelectItems = this.filterRanges.countries.map((x) => {return {label: x, value: x}; }),
                        this.resetChangeableFilterProperties()
                       ),
-      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movie filter ranges', detail: <any>error}), this.loading = false),
+      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movie filter ranges', detail: error}), this.loading = false),
       () => (this.loading = false, this.rerender())
     );
     this.movieLoadStream$ = new Subject<MoviesComponent>();
     this.movieLoadStream$$ = this.movieLoadStream$.debounceTime(250).subscribe(
       (dummy) => { this.loadMovies(); },
-      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movies', detail: <any>error})),
+      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movies', detail: error})),
     );
   }
 
-  private resetChangeableFilterProperties() {
+  private resetChangeableFilterProperties(): void {
     this.yearRange = [this.filterRanges.minYear, this.filterRanges.maxYear];
     this.fromYear = this.yearRange[0];
     this.toYear = this.yearRange[1];
@@ -112,7 +112,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.titleSearch = '';
     this.originalTitleSearch = '';
 
-    this.sortSummary.fieldName = null;
+    this.sortSummary.fieldName = undefined;
     this.sortSummary.sortOrder = 'none';
   }
 
@@ -127,49 +127,75 @@ export class MoviesComponent implements OnInit, OnDestroy {
     if (this.loadMoviesHTTPSubscription) { this.loadMoviesHTTPSubscription.unsubscribe(); };
   }
 
+  // tslint:disable-next-line:no-any
   public onYearFilterChange(event: any): void {
     this.fromYear = event.values[0];
     this.toYear = event.values[1];
     this.rerender();
   }
 
+  // tslint:disable-next-line:no-any
   public onYearFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  public onFromYearFilterChange(newValue): void {
-    this.yearRange = [newValue, this.yearRange[1]];
+  public onFromYearFilterChange(newValue: number): void {
+    this.yearRange = [this.getRangeLimitedFromYear(newValue), this.yearRange[1]];
     this.movieLoadStream$.next(this);
   }
 
-  public onToYearFilterChange(newValue): void {
-    this.yearRange = [this.yearRange[0], newValue];
+  private getRangeLimitedFromYear(fromYear: number): number {
+    return (this.filterRanges && fromYear < this.filterRanges.minYear) ? this.filterRanges.minYear : (fromYear > this.toYear ? this.toYear : fromYear );
+  }
+
+  // tslint:disable-next-line:no-any
+  public onFromYearFocusOut(event: any): void {
+    this.fromYear = this.getRangeLimitedFromYear(this.fromYear);
+  }
+
+  public onToYearFilterChange(newValue: number): void {
+    this.yearRange = [this.yearRange[0], this.getRangeLimitedToYear(newValue)];
     this.movieLoadStream$.next(this);
   }
 
+  private getRangeLimitedToYear(toYear: number): number {
+    return (this.filterRanges && toYear > this.filterRanges.maxYear) ? this.filterRanges.maxYear : (toYear < this.fromYear ? this.fromYear : toYear );
+  }
+
+  // tslint:disable-next-line:no-any
+  public onToYearFocusOut(event: any): void {
+    this.toYear = this.getRangeLimitedToYear(this.toYear);
+  }
+
+  // tslint:disable-next-line:no-any
   public onDurationFilterChange(event: any): void {
     this.durationRange$ = this.formatRange(<Array<number>>event.values, 0);
     this.rerender();
   }
 
+  // tslint:disable-next-line:no-any
   public onDurationFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
+  // tslint:disable-next-line:no-any
   public onKinopoiskFilterChange(event: any): void {
     this.kinopoiskRatingRange$ = this.formatRange(<Array<number>>event.values);
     this.rerender();
   }
 
+  // tslint:disable-next-line:no-any
   public onKinopoiskFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
+  // tslint:disable-next-line:no-any
   public onIMDBFilterChange(event: any): void {
     this.imdbRatingRange$ = this.formatRange(<Array<number>>event.values);
     this.rerender();
   }
 
+  // tslint:disable-next-line:no-any
   public onIMDBFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
@@ -177,11 +203,11 @@ export class MoviesComponent implements OnInit, OnDestroy {
   private loadMovies(): void {
     this.loading = true;
     let filter = new Filter(this.globalSearch, this.titleSearch, this.originalTitleSearch,
-                            this.yearRange ? this.yearRange[0] : null, this.yearRange ? this.yearRange[1] : null,
-                            this.durationRange ? this.durationRange[0] : null, this.durationRange ? this.durationRange[1] : null,
-                            this.kinopoiskRatingRange ? this.kinopoiskRatingRange[0] / 10 : null,
-                            this.kinopoiskRatingRange ? this.kinopoiskRatingRange[1] / 10 : null,
-                            this.imdbRatingRange ? this.imdbRatingRange[0] / 10 : null, this.imdbRatingRange ? this.imdbRatingRange[1] / 10 : null,
+                            this.yearRange ? this.yearRange[0] : undefined, this.yearRange ? this.yearRange[1] : undefined,
+                            this.durationRange ? this.durationRange[0] : undefined, this.durationRange ? this.durationRange[1] : undefined,
+                            this.kinopoiskRatingRange ? this.kinopoiskRatingRange[0] / 10 : undefined,
+                            this.kinopoiskRatingRange ? this.kinopoiskRatingRange[1] / 10 : undefined,
+                            this.imdbRatingRange ? this.imdbRatingRange[0] / 10 : undefined, this.imdbRatingRange ? this.imdbRatingRange[1] / 10 : undefined,
                             (this.personsSelected) ? this.personsSelected.map(x => x.id) : [], this.personsMatchAll,
                             this.genresSelected, this.genresMatchAll, this.countriesSelected, this.countriesMatchAll,
                             this.sortSummary.fieldName, this.sortSummary.sortOrder);
@@ -189,17 +215,17 @@ export class MoviesComponent implements OnInit, OnDestroy {
       this.loadMoviesHTTPSubscription.unsubscribe();
     }
     this.loadMoviesHTTPSubscription = this.movieService.getMovies(this.fromIndex, this.toIndex, filter).subscribe(
-      page => (this.totalMovieCount = (page) ? page.size : 0, this.movies = (page) ? page.data : null,
-               this.fromIndex = (page) ? page.fromIndex : 0, this.toIndex = (page) ? page.toIndex : null,
+      page => (this.totalMovieCount = (page) ? page.size : 0, this.movies = (page) ? page.data : undefined,
+               this.fromIndex = (page) ? page.fromIndex : 0, this.toIndex = (page) ? page.toIndex : undefined,
                this.globalSearchTokens = (page) ? page.globalSearchTokens : [],
                this.loading = false, this.rerender()),
-      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movies', detail: <any>error}), this.loading = false),
+      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch movies', detail: error}), this.loading = false),
       () => (this.loading = false, this.rerender())
     );
     this.rerender();
   }
 
-  private formatRange(range: Array<number>, fractionDigits = 1): string {
+  private formatRange(range: Array<number>, fractionDigits: number = 1): string {
     if (range) {
       let newArray = new Array<string>();
       for (let i = 0; i < (<Array<number>>range).length; i++) {
@@ -207,7 +233,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
       }
       return newArray.join(' - ');
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -232,58 +258,65 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.movieLoadStream$.next(this);
   }
 
-  public filterPersons(event): void {
+  // tslint:disable-next-line:no-any
+  public filterPersons(event: any): void {
     this.movieService.getPersons(0, 20, event.query).subscribe(
-      page => (this.personsFiltered = (page) ? page.data : null),
-      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch directors/writers/actors', detail: <any>error}), this.loading = false),
+      page => (this.personsFiltered = (page) ? page.data : undefined),
+      error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch directors/writers/actors', detail: error}), this.loading = false),
       () => (this.rerender())
     );
   }
 
-  public onPersonSelected(event): void {
+  // tslint:disable-next-line:no-any
+  public onPersonSelected(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  public onPersonsMatchAllToggled(event): void {
+  // tslint:disable-next-line:no-any
+  public onPersonsMatchAllToggled(event: any): void {
     if (this.personsSelected && this.personsSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  public onGenreSelected(event): void {
+  // tslint:disable-next-line:no-any
+  public onGenreSelected(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  public onGenresMatchAllToggled(event): void {
+  // tslint:disable-next-line:no-any
+  public onGenresMatchAllToggled(event: any): void {
     if (this.genresSelected && this.genresSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  public onCountrySelected(event): void {
+  // tslint:disable-next-line:no-any
+  public onCountrySelected(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  public onCountriesMatchAllToggled(event): void {
+  // tslint:disable-next-line:no-any
+  public onCountriesMatchAllToggled(event: any): void {
     if (this.countriesSelected && this.countriesSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  public toggleSort(event, fieldName: FieldNames): void {
+  // tslint:disable-next-line:no-any
+  public toggleSort(event: any, fieldName: FieldNames): void {
     if (this.sortSummary.fieldName === fieldName) {
       switch (this.sortSummary.sortOrder) {
         case 'asc' :  this.sortSummary.sortOrder = 'desc';
                       break;
         case 'desc' : this.sortSummary.sortOrder = 'none';
-                      this.sortSummary.fieldName = null;
+                      this.sortSummary.fieldName = undefined;
                       break;
       }
     } else {
       this.sortSummary.fieldName = fieldName;
       this.sortSummary.sortOrder = 'asc';
     }
-    console.log('sortSummary: %O', this.sortSummary);
     this.rerender();
     this.movieLoadStream$.next(this);
   }

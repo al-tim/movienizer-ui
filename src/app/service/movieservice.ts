@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MovieService {
-  private SERVER_ADDR = 'http://alexeytimkin.synology.me:7070';
+  private SERVER_ADDR: string = 'http://alexeytimkin.synology.me:7070';
   private SERVER_ADDR2 = 'http://localhost:8080';
 
   constructor(private http: Http) {}

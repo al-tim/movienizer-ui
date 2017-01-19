@@ -19,8 +19,10 @@ import {
 export class ModalSpinnerComponent implements AfterViewChecked, AfterContentInit {
     @Input() loading: boolean;
     @Input() selector?: string;
-    @ViewChild('content') contentEl;
-    @ViewChild('spinner') spinnerEl;
+    // tslint:disable-next-line:no-any 
+    @ViewChild('content') contentEl: any;
+    // tslint:disable-next-line:no-any 
+    @ViewChild('spinner') spinnerEl: any;
     @ContentChild('spinnerTemplate') spinnerTemplate;
     @ViewChild('target', { read: ViewContainerRef }) target: ViewContainerRef;
     public defaultTemplate: boolean;
@@ -34,7 +36,7 @@ export class ModalSpinnerComponent implements AfterViewChecked, AfterContentInit
         }
     }
 
-    private getZIndex (e: Element): number {
+    private getZIndex (e: HTMLElement): number {
         const z = parseInt(window.document.defaultView.getComputedStyle(e).getPropertyValue('z-index'), 10);
         if (isNaN(z)) {
             return 0;

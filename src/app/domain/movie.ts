@@ -50,7 +50,7 @@ export interface IPerson {
 }
 
 export interface ISortSummary {
-  fieldName: string | null;
+  fieldName: string | undefined;
   sortOrder: SortOrder;
 }
 
