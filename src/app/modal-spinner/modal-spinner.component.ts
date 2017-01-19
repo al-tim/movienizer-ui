@@ -23,18 +23,18 @@ export class ModalSpinnerComponent implements AfterViewChecked, AfterContentInit
     @ViewChild('spinner') spinnerEl;
     @ContentChild('spinnerTemplate') spinnerTemplate;
     @ViewChild('target', { read: ViewContainerRef }) target: ViewContainerRef;
-    defaultTemplate: boolean;
+    public defaultTemplate: boolean;
 
     constructor(private el: ElementRef, private viewContainerRef: ViewContainerRef) {}
 
-    ngAfterContentInit() {
+    public ngAfterContentInit(): void {
         this.defaultTemplate = !this.spinnerTemplate;
         if (this.spinnerTemplate) {
             this.target.createEmbeddedView(this.spinnerTemplate);
         }
     }
 
-    getZIndex (e) {
+    private getZIndex (e: Element): number {
         const z = parseInt(window.document.defaultView.getComputedStyle(e).getPropertyValue('z-index'), 10);
         if (isNaN(z)) {
             return 0;
@@ -42,7 +42,7 @@ export class ModalSpinnerComponent implements AfterViewChecked, AfterContentInit
         return z;
     }
 
-    ngAfterViewChecked() {
+    public ngAfterViewChecked(): void {
         let elementToFollow;
         if (this.selector) {
             elementToFollow = this.contentEl.nativeElement.querySelector(this.selector);

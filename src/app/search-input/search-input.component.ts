@@ -23,24 +23,24 @@ export class SearchInputComponent implements OnInit {
       this.value$ = newValue;
     }
   }
-  get value() {
+  get value(): string {
     return this.value$;
   }
   @Output() onValueChanged: EventEmitter<string> = new EventEmitter<string>();
-  previousSearchStringValue: string = '';
+  private previousEmittedValue: string = '';
 
   constructor(private el: ElementRef) {
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     Observable.fromEvent(this.el.nativeElement, 'keyup')
       .map((e: any) => e.target.value) // extract the value of the input
       .debounceTime(this.debounceTime)               // only once every so often
-      .filter((query: string): boolean => { return query !== this.previousSearchStringValue; })
+      .filter((query: string): boolean => { return query !== this.previousEmittedValue; })
       .subscribe({
         next: (query: string) => {
           this.onValueChanged.next(query);
-          this.previousSearchStringValue = query;
+          this.previousEmittedValue = query;
           this.value$ = query;
         },
         error: (err: any) => { // on error
@@ -49,7 +49,6 @@ export class SearchInputComponent implements OnInit {
         }
       );
   }
-
 }
 
 @NgModule({

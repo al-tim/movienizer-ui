@@ -27,6 +27,8 @@
       "static-before-instance",
       "variables-before-functions"
     ],
+    "typedef": [true, "parameter", "call-signature", "member-variable-declaration"],
+    "no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [

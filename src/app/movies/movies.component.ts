@@ -47,14 +47,14 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   public personsFiltered: IPerson[];
   public personsSelected: IPerson[];
-  public personsMatchAll = false;
+  public personsMatchAll: boolean = false;
 
   public genresSelected: string[];
-  public genresMatchAll = false;
+  public genresMatchAll: boolean = false;
   public genreSelectItems: SelectItem[];
 
   public countriesSelected: string[];
-  public countriesMatchAll = false;
+  public countriesMatchAll: boolean = false;
   public countrySelectItems: SelectItem[];
 
   private movieLoadStream$: Subject<MoviesComponent>;
@@ -66,7 +66,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   constructor(private movieService: MovieService, private cd: ChangeDetectorRef) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.movieService.getMovieFilterRanges().subscribe(
       filterRanges => (this.filterRanges = filterRanges,
                        this.filterRanges.minKinopoiskRating = Math.floor(this.filterRanges.minKinopoiskRating * 10),
@@ -116,65 +116,65 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.sortSummary.sortOrder = 'none';
   }
 
-  public actionReset() {
+  public actionReset(): void {
     this.resetChangeableFilterProperties();
     this.movieLoadStream$.next(this);
     this.rerender();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.movieLoadStream$$) { this.movieLoadStream$$.unsubscribe(); };
     if (this.loadMoviesHTTPSubscription) { this.loadMoviesHTTPSubscription.unsubscribe(); };
   }
 
-  onYearFilterChange(event: any) {
+  public onYearFilterChange(event: any): void {
     this.fromYear = event.values[0];
     this.toYear = event.values[1];
     this.rerender();
   }
 
-  onYearFilterChanged(event: any) {
+  public onYearFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  onFromYearFilterChange(newValue) {
+  public onFromYearFilterChange(newValue): void {
     this.yearRange = [newValue, this.yearRange[1]];
     this.movieLoadStream$.next(this);
   }
 
-  onToYearFilterChange(newValue) {
+  public onToYearFilterChange(newValue): void {
     this.yearRange = [this.yearRange[0], newValue];
     this.movieLoadStream$.next(this);
   }
 
-  onDurationFilterChange(event: any) {
+  public onDurationFilterChange(event: any): void {
     this.durationRange$ = this.formatRange(<Array<number>>event.values, 0);
     this.rerender();
   }
 
-  onDurationFilterChanged(event: any) {
+  public onDurationFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  onKinopoiskFilterChange(event: any) {
+  public onKinopoiskFilterChange(event: any): void {
     this.kinopoiskRatingRange$ = this.formatRange(<Array<number>>event.values);
     this.rerender();
   }
 
-  onKinopoiskFilterChanged(event: any) {
+  public onKinopoiskFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  onIMDBFilterChange(event: any) {
+  public onIMDBFilterChange(event: any): void {
     this.imdbRatingRange$ = this.formatRange(<Array<number>>event.values);
     this.rerender();
   }
 
-  onIMDBFilterChanged(event: any) {
+  public onIMDBFilterChanged(event: any): void {
     this.movieLoadStream$.next(this);
   }
 
-  private loadMovies() {
+  private loadMovies(): void {
     this.loading = true;
     let filter = new Filter(this.globalSearch, this.titleSearch, this.originalTitleSearch,
                             this.yearRange ? this.yearRange[0] : null, this.yearRange ? this.yearRange[1] : null,
@@ -211,28 +211,28 @@ export class MoviesComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadMoviesLazy(event: LazyLoadEvent) {
+  public loadMoviesLazy(event: LazyLoadEvent): void {
     this.fromIndex = event.first;
     this.toIndex = event.first + event.rows;
     this.movieLoadStream$.next(this);
   }
 
-  globalSearchInitiated(searchString: string) {
+  public globalSearchInitiated(searchString: string): void {
     this.globalSearch = searchString;
     this.movieLoadStream$.next(this);
   }
 
-  titleSearchInitiated(searchString: string) {
+  public titleSearchInitiated(searchString: string): void {
     this.titleSearch = searchString;
     this.movieLoadStream$.next(this);
   }
 
-  originalTitleSearchInitiated(searchString: string) {
+  public originalTitleSearchInitiated(searchString: string): void {
     this.originalTitleSearch = searchString;
     this.movieLoadStream$.next(this);
   }
 
-  filterPersons(event) {
+  public filterPersons(event): void {
     this.movieService.getPersons(0, 20, event.query).subscribe(
       page => (this.personsFiltered = (page) ? page.data : null),
       error => (this.msgs.push({severity: 'error', summary: 'Failed to fetch directors/writers/actors', detail: <any>error}), this.loading = false),
@@ -240,37 +240,37 @@ export class MoviesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onPersonSelected(event) {
+  public onPersonSelected(event): void {
     this.movieLoadStream$.next(this);
   }
 
-  onPersonsMatchAllToggled(event) {
+  public onPersonsMatchAllToggled(event): void {
     if (this.personsSelected && this.personsSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  onGenreSelected(event) {
+  public onGenreSelected(event): void {
     this.movieLoadStream$.next(this);
   }
 
-  onGenresMatchAllToggled(event) {
+  public onGenresMatchAllToggled(event): void {
     if (this.genresSelected && this.genresSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  onCountrySelected(event) {
+  public onCountrySelected(event): void {
     this.movieLoadStream$.next(this);
   }
 
-  onCountriesMatchAllToggled(event) {
+  public onCountriesMatchAllToggled(event): void {
     if (this.countriesSelected && this.countriesSelected.length > 1) {
       this.movieLoadStream$.next(this);
     }
   }
 
-  toggleSort(event, fieldName: FieldNames) {
+  public toggleSort(event, fieldName: FieldNames): void {
     if (this.sortSummary.fieldName === fieldName) {
       switch (this.sortSummary.sortOrder) {
         case 'asc' :  this.sortSummary.sortOrder = 'desc';
@@ -288,7 +288,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.movieLoadStream$.next(this);
   }
 
-  sortCSSClass(fieldName: FieldNames): string {
+  public sortCSSClass(fieldName: FieldNames): string {
     if (this.sortSummary.fieldName === fieldName) {
       switch (this.sortSummary.sortOrder) {
         case 'asc': return 'fa-sort-asc';
@@ -300,7 +300,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public rerender() {
+  public rerender(): void {
     this.cd.detectChanges();
     this.cd.markForCheck();
   }

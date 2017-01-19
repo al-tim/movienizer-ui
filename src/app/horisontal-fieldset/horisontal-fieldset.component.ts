@@ -1,4 +1,3 @@
-//import { BlockableUI } from 'primeng/primeng/common/api';
 import { NgModule, Component, Input, Output, EventEmitter, trigger, state, transition, style, animate, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -25,14 +24,14 @@ export class HorisontalFieldsetComponent /*implements BlockableUI*/ {
   @Input() collapsed: boolean = false;
   @Output() onBeforeToggle: EventEmitter<any> = new EventEmitter();
   @Output() onAfterToggle: EventEmitter<any> = new EventEmitter();
-  @Input() style: any;
+  @Input() style: string;
   @Input() styleClass: string;
 
   public animating: boolean;
 
   constructor(private el: ElementRef) {}
 
-  toggle(event) {
+  public toggle(event) {
     if (this.toggleable) {
       this.animating = true;
       this.onBeforeToggle.emit({originalEvent: event, collapsed: this.collapsed});
@@ -43,7 +42,7 @@ export class HorisontalFieldsetComponent /*implements BlockableUI*/ {
         this.collapse(event);
       }
 
-      this.onAfterToggle.emit({originalEvent: event, collapsed: this.collapsed});   
+      this.onAfterToggle.emit({originalEvent: event, collapsed: this.collapsed});
 
       setTimeout(() => {
           this.animating = false;
@@ -51,17 +50,13 @@ export class HorisontalFieldsetComponent /*implements BlockableUI*/ {
     }
   }
 
-  expand(event) {
+  public expand(event) {
     this.collapsed = false;
   }
 
-  collapse(event) {
+  public collapse(event) {
     this.collapsed = true;
   }
-
-/*  getBlockableElement(): HTMLElement {
-    return this.el.nativeElement.children[0];
-  }*/
 }
 
 @NgModule({
