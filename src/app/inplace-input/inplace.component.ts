@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/primeng';
 
@@ -16,7 +16,8 @@ import { InputTextModule } from 'primeng/primeng';
                    (blur)="deactivate($event)" (mouseout)="inputMouseOut($event)">
         </span>
     `,
-  styleUrls: ['./inplace.component.css']
+  styleUrls: ['./inplace.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InplaceInputComponent {
   @Input() value: number;
