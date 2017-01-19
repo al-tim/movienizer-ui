@@ -92,12 +92,14 @@
           <template pTemplate="header">
             <div>
               <div (click)="toggleSort($event, 'Year');">Year
-                (<input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="fromYear" (ngModelChange)="onFromYearFilterChange($event)"
-                        [min]="filterRanges ? filterRanges.minYear : 0" [max]="filterRanges ? (filterRanges.maxYear > toYear ? toYear : filterRanges.maxYear) : 10"
-                        (click)="$event.stopPropagation(); $event.preventDefault();" (focusout)="onFromYearFocusOut($event)">-
-                <input class="inline-edit" type="number" pInputText size="4" [placeholder]="inputPlaceholder" [(ngModel)]="toYear" (ngModelChange)="onToYearFilterChange($event)"
-                        [min]="filterRanges ? (filterRanges.minYear < fromYear ? fromYear : filterRanges.minYear) : 0" [max]="filterRanges ? filterRanges.maxYear : 10"
-                        (click)="$event.stopPropagation(); $event.preventDefault();" (focusout)="onToYearFocusOut($event)">)
+                ( <app-inplace-input [(value)]="fromYear" [size]="4" [inputStyleClass]="four-digit-input" (onChange)="onFromYearFilterChange($event)"
+                                     [min]="filterRanges ? filterRanges.minYear : 1902" [max]="filterRanges ? (filterRanges.maxYear > toYear ? toYear : filterRanges.maxYear) : 2017"
+                                     (click)="$event.stopPropagation(); $event.preventDefault();"></app-inplace-input>
+                -
+                  <app-inplace-input [(value)]="toYear" [size]="4" [inputStyleClass]="four-digit-input" (onChange)="onToYearFilterChange($event)"
+                                     [min]="filterRanges ? (filterRanges.minYear < fromYear ? fromYear : filterRanges.minYear) : 1902" [max]="filterRanges ? filterRanges.maxYear : 2017"
+                                     (click)="$event.stopPropagation(); $event.preventDefault();"></app-inplace-input>
+                )
                 <span class="fa" [ngClass]="sortCSSClass('Year')"></span>
               </div>
               <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearRange"

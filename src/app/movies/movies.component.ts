@@ -1,3 +1,4 @@
+import { InplaceModule } from './../inplace-input/inplace.component';
 import { HighlightPipe } from './../common/highlight.pipe';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +11,7 @@ import { MovieService } from '../service/movieservice';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
 import { Message } from 'primeng/components/common/api';
 import { LazyLoadEvent } from 'primeng/components/common/api';
+import { Inplace } from 'primeng/components/inplace/inplace';
 import { AutoCompleteModule, ButtonModule, DataTableModule, FieldsetModule, GrowlModule, InputSwitchModule, InputTextModule,
          MessagesModule, MultiSelectModule, SelectItem, SliderModule, TooltipModule } from 'primeng/primeng';
 import { Subject, Subscription } from 'rxjs/Rx';
@@ -149,8 +151,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line:no-any
-  public onFromYearFocusOut(event: any): void {
+  public onFromYearFocusOut(event: any, fromYearInplace: Inplace): void {
+    fromYearInplace.deactivate(event);
     this.fromYear = this.getRangeLimitedFromYear(this.fromYear);
+    this.rerender();
   }
 
   public onToYearFilterChange(newValue: number): void {
@@ -333,7 +337,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public rerender(): void {
+  private  rerender(): void {
     this.cd.detectChanges();
     this.cd.markForCheck();
   }
@@ -363,6 +367,7 @@ export class Filter implements IMovieFilter {
     FieldsetModule,
     GrowlModule,
     HorisontalFieldsetModule,
+    InplaceModule,
     InputSwitchModule,
     InputTextModule,
     MessagesModule,
