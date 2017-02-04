@@ -1,0 +1,11 @@
+.personsMoreLessChevron {
+  transform: translateY(-0.25em);
+  font-size: 4em;
+  vertical-align: text-bottom;
+  color: #DDDDDD;
+  cursor: pointer;
+}
+
+.personsMoreLessChevron:hover, .personsMoreLessChevron:focus {
+  color: #1F89CE;
+}

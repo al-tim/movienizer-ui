@@ -1,0 +1,41 @@
+<div *ngIf="person" class="ui-grid ui-grid-responsive ui-fluid ui-widget-header" style="font-size: 1em;">
+  <div *ngIf="person.site" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Kinopoisk:</div>
+    <div class="ui-grid-col-10">
+      <a class="kinopoiskLink" target="_blank" [href]="person.site">{{person.site}}</a>
+    </div>
+  </div>
+  <div *ngIf="person.birth_Date" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Birth Date:</div>
+    <div class="ui-grid-col-10">
+      {{person.birth_Date}}
+    </div>
+  </div>
+  <div *ngIf="person.birthplace" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Birth place:</div>
+    <div class="ui-grid-col-10">
+      {{person.birthplace}}
+    </div>
+  </div>
+  <app-horisontal-fieldset *ngIf="person.photos && person.photos.length>0" legend="Photos:" toggleable="true">
+    <app-lightbox [images]="person.photos | imagesToPrimeNg : config.IMAGE_BASEURL" [styleClass]="'lightboxThumbnail'" easing="ease" effectDuration="'100ms'"></app-lightbox>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="person.biography" legend="Biography:" toggleable="true">
+    <app-showmore-showless [textHtml]="person.biography" [rows]="10"></app-showmore-showless>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="person.awards" legend="Awards:" toggleable="true" collapsed="true">
+    <div [innerHTML]="person.awards"></div>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="person.directorFor && person.directorFor.length>0" legend="Director of:" toggleable="true">
+    <app-movie-strip [movies]="person.directorFor"></app-movie-strip>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="person.writerFor && person.writerFor.length>0" legend="Writer of:" toggleable="true">
+    <app-movie-strip [movies]="person.writerFor"></app-movie-strip>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="person.actorFor && person.actorFor.length>0" legend="Actor in:" toggleable="true">
+    <app-movie-strip [movies]="person.actorFor"></app-movie-strip>
+  </app-horisontal-fieldset>
+</div>
+<div *ngIf="!person" class="ui-grid ui-grid-responsive ui-fluid ui-widget-header" style="font-size: 1em;">
+  Person not found.
+</div>

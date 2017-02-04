@@ -1,0 +1,17 @@
+<div [ngStyle]="style" [class]="styleClass">
+  <a *ngFor="let image of images; let i = index;" [href]="image.source" (click)="onImageClick($event, image, i)">
+    <img [src]="image.thumbnail" [title]="image.title" [alt]="image.alt">
+  </a>
+</div>
+<div #lightboxMask class="lightboxOverlayMask" style="z-index: 2001; display: none;"></div>
+<div #lightboxPanel class="lightboxModalPanel" style="z-index: 2002; display: none;">
+<span class="lightboxImageContainer ui-unselectable-text" onclick="event.stopPropagation();">
+  <img class="lightboxImage" src="">
+  <span class="lightBoxImageLeftHalf">
+    <a class="lightBoxPrevButton">&#10096;</a>
+  </span>
+  <span class="lightBoxImageRightHalf">
+    <a class="lightBoxNextButton">&#10097;</a>
+  </span>
+</span>
+</div>

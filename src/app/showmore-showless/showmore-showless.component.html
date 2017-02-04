@@ -1,0 +1,17 @@
+<div class="collapsibleTextBlock" [style.max-height]="showAll ? 'none' : (rows * lineHeightEms).toString()+'em'">
+  <div [style.line-height]="lineHeightEms.toString()+'em'">
+    <div [innerHTML]="textHtml"></div>
+    <div *ngIf="showAll">
+      <span class="moreLessLink" (click)="showAll = !showAll;">Show less...</span>
+    </div>
+  </div>
+  <div *ngIf="!showAll" class="showMoreOverlay" [style.line-height]="lineHeightEms.toString()+'em'" [style.max-height]="(rows * lineHeightEms).toString()+'em'">
+    <div [innerHTML]="textHtml"></div>
+  </div>
+  <div *ngIf="!showAll" class="showMoreOverlay" [style.line-height]="lineHeightEms.toString()+'em'">
+    <span [innerHTML]="fillingText"></span>
+    <div [style.height]="(2 * lineHeightEms).toString()+'em'" class="nontransparentBlock showOnTopOverlay">
+      <span class="moreLessLink" (click)="showAll = !showAll;">Show more...</span>
+    </div>
+  </div>
+</div>

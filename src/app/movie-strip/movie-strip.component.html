@@ -1,0 +1,9 @@
+<span *ngFor="let movie of (showMoreLess && showAll ? movies : movies.slice(0, minSize))">
+  <app-movie-widget [movie]="movie"></app-movie-widget>
+</span>
+<table *ngIf="showMoreLess && !showAll" class="movieWidget" style="border: none; padding: 0; width: 2em;"><tr><td style="padding: 0em;">
+  <button pButton type="text" (click)="showAll = !showAll" icon="fa-chevron-right" class="white-button" style="width: 2em; height: 6em;" tabindex="0"></button>
+</td></tr></table>
+<table *ngIf="showMoreLess && showAll" class="movieWidget" style="border: none; padding: 0; width: 2em;"><tr><td style="padding: 0em;">
+  <button pButton type="text" (click)="showAll = !showAll" icon="fa-chevron-left" class="white-button" style="width: 2em; height: 6em;" tabindex="0"></button>
+</td></tr></table>

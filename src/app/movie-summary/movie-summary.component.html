@@ -1,0 +1,59 @@
+<div *ngIf="movie" class="ui-grid ui-grid-responsive ui-fluid ui-widget-header" style="font-size: 1em;">
+  <div *ngIf="movie.site" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Kinopoisk:</div>
+    <div class="ui-grid-col-10">
+      <a class="kinopoiskLink" target="_blank" [href]="movie.site">{{movie.site}}</a>
+    </div>
+  </div>
+  <div *ngIf="movie.genres && movie.genres.length>0" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Genres:</div>
+    <div class="ui-grid-col-10">
+      <span *ngFor="let item of movie.genres; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
+    </div>
+  </div>
+  <div *ngIf="movie.countries && movie.countries.length>0" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Countries:</div>
+    <div class="ui-grid-col-10">
+      <span *ngFor="let item of movie.countries; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
+    </div>
+  </div>
+  <div *ngIf="movie.studios && movie.studios.length>0" class="ui-grid-row">
+    <div class="ui-grid-col-2 label">Studios:</div>
+    <div class="ui-grid-col-10">
+      <span *ngFor="let item of movie.studios; let isLast = last"><span [innerHTML]="item | highlight : globalSearchTokens "></span><span>{{isLast ? '' : ', '}}</span></span>
+    </div>
+  </div>
+  <app-horisontal-fieldset *ngIf="movie.imageFrontCovers && movie.imageFrontCovers.length>0" legend="Front Covers:" toggleable="true" collapsed="true">
+    <app-lightbox [images]="movie.imageFrontCovers | imagesToPrimeNg : config.IMAGE_BASEURL" [styleClass]="'lightboxThumbnail'" easing="ease" effectDuration="'100ms'"></app-lightbox>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.imagePosters && movie.imagePosters.length>0" legend="Posters:" toggleable="true" collapsed="true">
+    <app-lightbox [images]="movie.imagePosters | imagesToPrimeNg : config.IMAGE_BASEURL" [styleClass]="'lightboxThumbnail'" easing="ease" effectDuration="'100ms'"></app-lightbox>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.imageScreenshots && movie.imageScreenshots.length>0" legend="Screenshots:" toggleable="true">
+    <app-lightbox [images]="movie.imageScreenshots | imagesToPrimeNg : config.IMAGE_BASEURL" [styleClass]="'lightboxThumbnail'" easing="ease" effectDuration="'100ms'"></app-lightbox>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.imageBackdrops && movie.imageBackdrops.length>0" legend="Backdrops:" toggleable="true" collapsed="true">
+    <app-lightbox [images]="movie.imageBackdrops | imagesToPrimeNg : config.IMAGE_BASEURL" [styleClass]="'lightboxThumbnail'" easing="ease" effectDuration="'100ms'"></app-lightbox>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.description" legend="Description:" toggleable="true">
+    <app-showmore-showless [textHtml]="movie.description" [rows]="10"></app-showmore-showless>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.awards" legend="Awards:" toggleable="true" collapsed="true">
+    <div [innerHTML]="movie.awards"></div>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.budget" legend="Budget:" toggleable="true">
+    <div [innerHTML]="movie.budget"></div>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.directors && movie.directors.length>0" legend="Directors:" toggleable="true">
+    <app-persons-strip [persons]="movie.directors"></app-persons-strip>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.writers && movie.writers.length>0" legend="Writers:" toggleable="true">
+    <app-persons-strip [persons]="movie.writers"></app-persons-strip>
+  </app-horisontal-fieldset>
+  <app-horisontal-fieldset *ngIf="movie.actors && movie.actors.length>0" legend="Actors:" toggleable="true">
+    <app-persons-strip [persons]="movie.actors"></app-persons-strip>
+  </app-horisontal-fieldset>
+</div>
+<div *ngIf="!movie" class="ui-grid ui-grid-responsive ui-fluid ui-widget-header" style="font-size: 1em;">
+  Movie not found.
+</div>

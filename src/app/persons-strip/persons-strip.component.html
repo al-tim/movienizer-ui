@@ -1,0 +1,9 @@
+<span *ngFor="let person of (showMoreLess && showAll ? persons : persons.slice(0, minSize))">
+  <app-person-widget [person]="person"></app-person-widget>
+</span>
+<table *ngIf="showMoreLess && !showAll" class="personWidget" style="border: none; padding: 0; width: 2em;"><tr><td style="padding: 0em;">
+  <button pButton type="text" (click)="showAll = !showAll" icon="fa-chevron-right" class="white-button" style="width: 2em; height: 6em;" tabindex="0"></button>
+</td></tr></table>
+<table *ngIf="showMoreLess && showAll" class="personWidget" style="border: none; padding: 0; width: 2em;"><tr><td style="padding: 0em;">
+  <button pButton type="text" (click)="showAll = !showAll" icon="fa-chevron-left" class="white-button" style="width: 2em; height: 6em;" tabindex="0"></button>
+</td></tr></table>

@@ -1,0 +1,22 @@
+<div class="overlayDialogMask" style="z-index: 100;" (click)="actionOnClose($event)"></div>
+<app-modal-spinner [loading]="loading" selector=".loadingPane">
+  <div class="loadingPane ui-dialog ui-confirmdialog ui-widget ui-widget-content ui-corner-all ui-shadow"
+       style="position: fixed; padding: 0; overflow: hidden; display: block; width: 90%; max-height: 90%; visibility: visible; left: 5%; top: 5%; z-index: 101; opacity: 1; overflow-y: auto;">
+    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top" style="position: fixed; width: 90%; z-index: 2; min-height: 3.5em;">
+      <span class="ui-dialog-title">{{header}}</span>
+      <button type="button" pButton icon="fa-close" class="white-button" style="float:right" (click)="actionOnClose($event)"></button>
+      <button type="button" pButton icon="fa-step-forward" class="white-button" style="float:right" onclick="history.go(1);"></button>
+      <button type="button" pButton icon="fa-step-backward" class="white-button" style="float:right" onclick="history.go(-1);"></button>
+    </div>
+    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top" style="min-height: 3.5em;">
+      <span class="ui-dialog-title">{{header}}</span>
+      <button type="button" icon="fa-close" class="white-button" style="float:right"></button>
+      <button type="button" icon="fa-step-forward" class="white-button" style="float:right"></button>
+      <button type="button" icon="fa-step-backward" class="white-button" style="float:right"></button>
+    </div>
+    <div class="ui-dialog-content ui-widget-content" style="padding: 1em;">
+      <ng-content *ngIf="!loading"></ng-content>
+      <div *ngIf="loading" style="vertical-align: bottom">Loading...</div>
+    </div>
+  </div>
+</app-modal-spinner>

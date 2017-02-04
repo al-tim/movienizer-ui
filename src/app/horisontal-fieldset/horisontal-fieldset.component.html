@@ -1,7 +1,7 @@
 <div class="ui-grid-row ui-fieldset-legend ui-corner-all ui-state-default ui-unselectable-text" style="padding: 8px;">
   <div class="ui-grid-col-2">
-    <span class="ui-fieldset-legend ui-corner-all ui-unselectable-text label" (click)="toggle()">
-      <span class="ui-fieldset-toggler fa fa-w" [ngClass]="{'fa-minus': !collapsed,'fa-plus':collapsed}"></span>
+    <span class="ui-fieldset-legend ui-corner-all ui-unselectable-text label" [style.cursor]="'pointer'" (click)="toggle()">
+      <span class="ui-fieldset-toggler fa fa-w" [ngClass]="{'fa-minus': !collapsed,'fa-plus':collapsed}" style="font-size: 1em;"></span>
       {{legend}}
     </span>
   </div>

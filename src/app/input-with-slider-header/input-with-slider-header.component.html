@@ -1,0 +1,15 @@
+<div>
+  <div (click)="toggleSort();" class="sortable">{{header}}
+    ( <app-inplace-input [value]="fromValue" [size]="size" [inputStyle]="{'width': size+'em'}" (onChange)="onFromValueChange($event)"
+                          [min]="min" [max]="max > toValue ? toValue : max" [step]="step$"
+                          (click)="$event.stopPropagation(); $event.preventDefault();"></app-inplace-input>
+    -
+      <app-inplace-input [value]="toValue"[size]="size" [inputStyle]="{'width': size+'em'}" (onChange)="onToValueChange($event)"
+                          [min]="min < fromValue ? fromValue : min" [max]="max" [step]="step$"
+                          (click)="$event.stopPropagation(); $event.preventDefault();"></app-inplace-input>
+    )
+    <span class="fa" [ngClass]="sortOrder$ === 'asc' ? 'fa-sort-asc' : sortOrder$ === 'desc' ? 'fa-sort-desc' : sortOrder$ === 'none' ? 'fa-sort' : '' "></span>
+  </div>
+  <p-slider [style]="{'width':'100%','margin-top':'8px'}" [ngModel]="valueRange" [min]="sliderMin" [max]="sliderMax" [range]="true"
+    (onChange)="onSliderChange($event)" (onSlideEnd)="onSlideEnd($event)"></p-slider>
+</div>

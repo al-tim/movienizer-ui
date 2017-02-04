@@ -3,27 +3,69 @@
 <head>
   <meta charset="utf-8">
   <title>Movie Collection</title>
-  <base href="/movies">
+  <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="/android-chrome-192x192.png" sizes="192x192">
-  <link rel="icon" href="/android-chrome-256x256.png" sizes="256x256">
-  <link rel="icon" href="/android-chrome-512x512.png" sizes="512x512">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" href="android-chrome-256x256.png" sizes="256x256">
+  <link rel="icon" href="android-chrome-512x512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
   <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="32x32">
-  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="manifest.json">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
 
   <meta name="msapplication-config" content="browserconfig.xml"/>
 
   <meta name="theme-color" content="#ffffff">
+
+  <style>
+    .loading {
+      opacity: 0;
+      transition: opacity .8s ease-in-out;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: #156090;
+      z-index: -2;
+    }
+    app-root:empty + .loading {
+      opacity: 1;
+      z-index: 100;
+      background: DDDDDD;
+    }
+    .loading h1 {
+      text-transform: uppercase;
+      font-family: 'Nunito', sans-serif;
+      font-size: 3em;
+      color: #f6f7f9;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      transform: translate(0, -50%);
+      text-shadow:0 0 0.25em #3f94e9;
+    }
+    .loading h1.animated {
+      animation: glow 0.5s 10 alternate;
+    }
+    @keyframes glow {
+      to {
+        text-shadow: 0 0 0.5em #c0c0c0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <app-root>Loading...</app-root>
+  <app-root></app-root>
+  <div class="loading">
+    <h1 class="animated">Loading...</h1>
+  </div>
 </body>
 </html>

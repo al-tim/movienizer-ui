@@ -1,0 +1,11 @@
+<table class="personWidget">
+  <tr>
+    <td>
+      <img [src]="(person && person.photos && person.photos[0]) ? config.IMAGE_BASEURL + person.photos[0].path: 'resources/images/no-photo-3x2.png'" class="personThumbnail">
+    </td>
+    <td>
+      <div><a class="popupLink" [routerLink]="['/', { outlets: { popupOverlay: ['person', person.id]}}]" preserveQueryParams [innerHTML]="person ? (person.name | highlight : globalSearchTokens) : '' "></a></div>
+      <sub *ngIf="person.character">as {{person.character}}</sub>
+    </td>
+  </tr>
+</table>

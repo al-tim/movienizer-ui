@@ -10,13 +10,13 @@ import 'rxjs/add/operator/switch';
 
 @Component({
   selector: 'app-search-input',
-  templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.css']
+  template: `<input type="text" pInputText [size]="size" [placeholder]="inputPlaceholder" class="ui-column-filter ui-widget" [ngStyle]="inputStyle" [(ngModel)]="value$">`
 })
 export class SearchInputComponent implements OnInit {
   @Input() inputPlaceholder: string;
   @Input() inputStyle: string;
-  @Input() debounceTime: number = 0;
+  @Input() debounceTime: number = 10;
+  @Input() size: number = 50;
   private value$: string;
   @Input() set value(newValue: string) {
     if (newValue !== this.value$) {
@@ -42,7 +42,6 @@ export class SearchInputComponent implements OnInit {
         next: (query: string) => {
           this.onValueChanged.next(query);
           this.previousEmittedValue = query;
-          this.value$ = query;
         },
         error: (err) => { // on error: this should not really happen. So just log it.
                  console.log(err);

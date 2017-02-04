@@ -1,0 +1,26 @@
+.collapsibleTextBlock {
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+
+.moreLessLink {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.showMoreOverlay {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0em;
+}
+
+.showOnTopOverlay {
+  z-index: 100;
+}
+
+.nontransparentBlock {
+  background: white;
+}

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-horisontal-fieldset',
   templateUrl: './horisontal-fieldset.component.html',
-  styleUrls: ['./horisontal-fieldset.component.css'],
   animations: [
     trigger('fieldsetContent', [
       state('hidden', style({

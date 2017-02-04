@@ -1,0 +1,5 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+<app-overlay-dialog [loading]="loading"
+  header="{{person? person.name : ''}}{{(person && person.original_Name && person.original_Name !== person.name) ? ' (' + person.original_Name + ')': ''}}">
+  <app-person-summary [person]="person"></app-person-summary>
+</app-overlay-dialog>

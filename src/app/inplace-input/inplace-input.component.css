@@ -5,7 +5,11 @@
   margin: 0;
 }
 
-input.inline-edit {
+.inline-edit.inline-edit-passive {
+  border-bottom: 1px #888888 dashed;
+}
+
+.inline-edit {
   /* Eliminate borders and padding */
   border: none;
   padding: 0;
@@ -24,14 +28,13 @@ input.inline-edit {
 }
 
 /* Add interaction cues on hover and focus */
-input.inline-edit:hover,
-input.inline-edit:focus {
-  /* Change the background to a light yellow */
+.inline-edit:hover,
+.inline-edit:focus {
   background-color: white;
 
   /* A subtle transition never hurts */
-  -webkit-transition: background-color 0.5s;
-     -moz-transition: background-color 0.5s;
-      -ie-transition: background-color 0.5s;
-          transition: background-color 0.5s;
+  -webkit-transition: background-color 0.25s;
+     -moz-transition: background-color 0.25s;
+      -ie-transition: background-color 0.25s;
+          transition: background-color 0.25s;
 }

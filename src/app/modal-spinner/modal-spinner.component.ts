@@ -19,10 +19,8 @@ import {
 export class ModalSpinnerComponent implements AfterViewChecked, AfterContentInit {
     @Input() loading: boolean;
     @Input() selector?: string;
-    // tslint:disable-next-line:no-any 
-    @ViewChild('content') contentEl: any;
-    // tslint:disable-next-line:no-any 
-    @ViewChild('spinner') spinnerEl: any;
+    @ViewChild('content') contentEl: ElementRef;
+    @ViewChild('spinner') spinnerEl: ElementRef;
     @ContentChild('spinnerTemplate') spinnerTemplate;
     @ViewChild('target', { read: ViewContainerRef }) target: ViewContainerRef;
     public defaultTemplate: boolean;

@@ -1,0 +1,12 @@
+<table class="movieWidget">
+  <tr>
+    <td>
+      <img [src]="(movie && movie.image) ? config.IMAGE_BASEURL + movie.image.path: 'resources/images/no-photo-3x2.png'" class="movieThumbnail">
+    </td>
+    <td>
+      <div><a class="popupLink" [routerLink]="['/', { outlets: { popupOverlay: ['movie', movie.id]}}]" preserveQueryParams [innerHTML]="movie ? movie.title : '' "></a></div>
+      <sub *ngIf="movie && movie.original_Title && movie.original_Title !== movie.title">{{movie.original_Title}}</sub>
+      <sub *ngIf="movie && movie.year">[{{movie.year}}]</sub>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,5 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+<app-overlay-dialog [loading]="loading"
+  header="{{movie ? movie.title: '' }}{{(movie && movie.original_Title && movie.original_Title !== movie.title) ? ' (' + movie.original_Title + ')': ''}}{{(movie && movie.year) ? ' ['+movie.year+']' : ''}}">
+  <app-movie-summary [movie]="movie"></app-movie-summary>
+</app-overlay-dialog>
